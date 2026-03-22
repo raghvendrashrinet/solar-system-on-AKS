@@ -8,13 +8,16 @@ env:
   MONGO_URI: ${{ vars.MONGO_URL }}
   MONGO_USERNAME: ${{ vars.MONGO_USERNAME}}
   MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD}}
-matrix:
-    nodejs_version: [18,19,20]
-    operating_system: [ubuntu-22.04, ubuntu-24.04, ubuntu-latest]
+
 
 jobs:
     npm_setup:
         runs-on: ${{ matrix.operating_system }}
+        strategy:
+            matrix:
+               nodejs_version: [18,19,20]
+               operating_system: [ubuntu-22.04, ubuntu-24.04, ubuntu-latest]
+
         steps:
         -  name: checkout
            uses:  actions/checkout@v4
