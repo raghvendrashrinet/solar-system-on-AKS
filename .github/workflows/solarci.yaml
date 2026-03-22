@@ -14,14 +14,14 @@ matrix:
 
 jobs:
     npm_setup:
-        runs-on: $ {{ matrix.operating_system }}
+        runs-on: ${{ matrix.operating_system }}
         steps:
         -  name: checkout
            uses:  actions/checkout@v4
         -  name: Use Node.js
            uses: actions/setup-node@v4
            with:
-             node-version: 18
+             node-version: ${{ matrix.nodejs_version}}
 
         - name: install dependancy
           run: npm install
