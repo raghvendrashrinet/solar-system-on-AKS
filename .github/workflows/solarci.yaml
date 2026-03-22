@@ -54,9 +54,12 @@ jobs:
           run: npm install
         - name: unit testing
           run: npm run coverage
+          if: always()
+          #continue-on-error: true
 
         - name: upload code coverage report
           uses: actions/upload-artifact@v4
           with: 
             name: code-coverage-${{github.sha}}
             path: coverage         
+            retention-days: 1
