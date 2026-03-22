@@ -58,8 +58,8 @@ jobs:
          # continue-on-error: true  # it will excute and test is marked as pass
 
         - name: upload code coverage report
-          #if: always() # if stattement step and job will be failed even all step executed
-          if : failure()
+          #if: failure() # if stattement step and job will be failed even all step executed
+          if : always()
           uses: actions/upload-artifact@v4
           with: 
             name: code-coverage-${{github.sha}}
