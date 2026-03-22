@@ -4,6 +4,11 @@ on:
         branches:
         - main 
         - feature/*
+env:
+  MONGO_URL: ${{ vars.MONGO_URL }}
+  MONGO_USERNAME: ${{ vars.MONGO_USERNAME}}
+  MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD}}
+
 jobs:
     npm_setup:
         runs-on: 'ubuntu-latest'
