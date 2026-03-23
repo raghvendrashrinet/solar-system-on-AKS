@@ -72,7 +72,7 @@ jobs:
         - name: Docker Login
           uses: docker/login-action@v3
           with:
-            username: ${{ vars.DOKCER_USERNAME }}
+            username: ${{ vars.DOCKER_USERNAME }}
             password: ${{ secrets.DOCKER_PASSWORD }}
 
         # - name: Build and push
