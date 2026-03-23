@@ -110,7 +110,7 @@ jobs:
             tags: | 
                  ${{vars.DOCKER_USERNAME}}/solar-system:${{github.sha}}
                  ghcr.io/${{vars.DOCKER_USERNAME}}/solar-system:${{github.sha}}
-                 # this line pushes to github registry
+              
 
 
         
