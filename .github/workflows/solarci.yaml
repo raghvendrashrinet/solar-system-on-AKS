@@ -67,6 +67,7 @@ jobs:
             retention-days: 1
 
     docker:
+        needs: [run_test,run_code_coverage]
         runs-on: 'ubuntu-latest'
         steps:
         - name: Docker Login
