@@ -80,7 +80,7 @@ jobs:
           uses: docker/build-push-action@v5
           with:
             push: false
-            tags: $${{vars.DOCKER_USERNAME}}/solar-system:${{github.sha}}
+            tags: ${{vars.DOCKER_USERNAME}}/solar-system:${{github.sha}}
 
         - name: Run Docker Container
           run: |
