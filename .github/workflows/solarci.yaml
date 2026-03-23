@@ -95,9 +95,10 @@ jobs:
             echo "The Container IP is: $IP"
             wget -q -O - 127.0.0.1:3000/live | grep live
 
-        # - name: Push Image
-        #   uses: docker/build-push-action@v5
-        #   with:
-        #     push: true
-        #     tags: user/app:latest
+        - name: Build 
+          uses: docker/build-push-action@v5
+          with:
+            push: true
+            tags: ${{vars.DOCKER_USERNAME}}/solar-system:${{github.sha}}
+
                                 
