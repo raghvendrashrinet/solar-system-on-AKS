@@ -17,6 +17,7 @@ jobs:
             matrix:
                nodejs_version: [18,19]
                operating_system: [ ubuntu-24.04, ubuntu-latest]
+  
 
         steps:
         -  name: checkout
@@ -69,6 +70,8 @@ jobs:
     docker:
         needs: [run_test,run_code_coverage]
         runs-on: 'ubuntu-latest'
+        permissions:
+            packages: write
         steps:
         - name: Docker Login
           uses: docker/login-action@v3
