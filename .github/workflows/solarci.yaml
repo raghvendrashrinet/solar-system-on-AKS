@@ -93,7 +93,7 @@ jobs:
             export IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' solar-system-app)           
             echo "CONTAINER_IP=$IP" >> $GITHUB_ENV
             echo "The Container IP is: $IP"
-            wget -q -o - 127.0.0.1:3000/live | grep live
+            wget -q -O - 127.0.0.1:3000/live | grep live
 
         # - name: Push Image
         #   uses: docker/build-push-action@v5
