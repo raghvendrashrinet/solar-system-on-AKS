@@ -65,3 +65,17 @@ jobs:
             name: code-coverage-${{github.sha}}
             path: coverage         
             retention-days: 1
+
+    docker:
+        - name: Docker Login
+          uses: docker/login-action@v3
+          with:
+            username: ${{ vars.DOKCER_USERNAME }}
+            passowrod: ${{ secrets.DOCKER_PASSWORD }}
+
+        # - name: Build and push
+        #   uses: docker/build-push-action@v5
+        #   with:
+        #     push: true
+        #     tags: user/app:latest
+                                
