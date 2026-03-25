@@ -116,8 +116,9 @@ jobs:
               
     Kubernetese_CD:
       runs-on: 'ubuntu-latest'
-     
+      needs: [run_test,run_code_coverage,docker ]
       steps: 
+        
         # kubectl install on the runner
         - name: kubectl install on the runner
           uses: azure/setup-kubectl@v4
