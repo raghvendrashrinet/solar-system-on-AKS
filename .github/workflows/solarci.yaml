@@ -132,6 +132,7 @@ jobs:
             sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
             sudo chown $USER:$USER ~/.kube/config 
             cat ~/.kube/config
+            sleep 60
             kubectl get pods -A
 
         
