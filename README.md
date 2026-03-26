@@ -47,3 +47,35 @@ If the installation was successful, you should be able to run the following comm
 ## Access Application on Browser
     http://localhost:3000/
 
+# Application Logic 
+                +-----------------------------+
+                |   User's Browser / Client   |
+                +-----------------------------+
+                             |
+                             v
+                +-----------------------------+
+                |        Ingress (NGINX)      |
+                | solar-system-<ns>.<ip>.nip.io|
+                |   TLS termination (HTTPS)   |
+                +-----------------------------+
+                             |
+                             v
+                +-----------------------------+
+                |   Service: solar-system     |
+                |   Type: NodePort (3000)     |
+                |   Selector: app=solar-system|
+                +-----------------------------+
+                             |
+                +-----------------------------+
+                |   Pods (Deployment)         |
+                |   solar-system containers   |
+                |   Express app on port 3000  |
+                |   Env from mongo-db-creds   |
+                +-----------------------------+
+                             |
+                             v
+                +-----------------------------+
+                |   MongoDB Atlas Cluster     |
+                |   supercluster.d83jj...     |
+                |   Database: superData       |
+                +-----------------------------+
