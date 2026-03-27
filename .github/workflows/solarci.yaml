@@ -177,6 +177,12 @@ jobs:
         - name: Deploy to Dev Environment
           run: |
             kubectl apply -f kubernetes/development
+        - name: check deployment
+          run: |
+            kubectl port-forward svc/solar-system 3000:3000 -n development
+            curl http://127.0.0.1:3000/live
+
+
 
         
         
