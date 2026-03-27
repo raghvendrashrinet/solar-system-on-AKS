@@ -154,7 +154,12 @@ jobs:
         
         - name: Display Kubernates files after replace
           run: |
-              cat kubernetes/development/*.yaml
+              cat kubernetes/development/deployment.yaml
+              cat kubernetes/development/ingress.yaml
+              cat kubernetes/development/ingress.yaml
+              echo "Ingress IP is $INGRESS_IP"
+
+
 
         - name: Create MongoDB Secret
           run: |
