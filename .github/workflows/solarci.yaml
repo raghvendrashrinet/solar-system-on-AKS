@@ -152,7 +152,7 @@ jobs:
         
         - name: Display Kubernates files after replace
           run: |
-              cat kubernetes/development/*
+              cat kubernetes/development/deployment.yaml
 
 
 
