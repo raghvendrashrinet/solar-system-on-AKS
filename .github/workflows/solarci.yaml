@@ -118,69 +118,79 @@ jobs:
       runs-on: 'ubuntu-latest'
       needs: [run_test,run_code_coverage,docker ]
       steps: 
-        
-        # kubectl install on the runner
-        - name: kubectl install on the runner
-          uses: azure/setup-kubectl@v4
-          #with:
-           # version: '<version>' # default is latest stable
-          id: install    
-        -  name: checkout
-           uses:  actions/checkout@v4
-        - name: setting kubeconfig 
-          run: |
-            curl -sfL https://get.k3s.io | sh -
-            mkdir -p ~/.kube
-            sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
-            sudo chown $USER:$USER ~/.kube/config 
-            cat ~/.kube/config
-            sleep 60
-            kubectl get pods -A
-        
-        - name: saving nginx controller ip as github environment variable    
-          run: |
-            IP=$(kubectl -n ingress-nginx get svc ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2>/dev/null || echo "127.0.0.1")
-            echo "INGRESS_IP=$IP" >> $GITHUB_ENV
-
-        - name: Replace place holder in k8s manifest files    
-          uses: cschleiden/replace-tokens@v1
+        -  name: Azure login
+           id: login
+           uses: azure/login@v1.4.3
+           with:
+             creds: ${{ secrets.AZURE_CREDENTIALS }}
+        - name: Verify Azure CLI login
+          uses: azure/cli@v2 # Use the Azure CLI action to run commands
           with:
-            tokenPrefix: '_{_'
-            tokenSuffix: '_}_'
-            files: '["kubernetes/development/*.yaml"]'
-          env:
-            NAMESPACE: ${{ vars.NAMESPACE}}
-            REPLICAS: ${{ vars.REPLICAS}}
-            IMAGES: ${{vars.DOCKER_USERNAME}}/solar-system:${{github.sha}}
-            INGRESS_IP: ${{ env.INGRESS_IP}}
+            inlineScript: |
+              az account show
+              az group list
+        # # kubectl install on the runner
+        # - name: kubectl install on the runner
+        #   uses: azure/setup-kubectl@v4
+        #   #with:
+        #    # version: '<version>' # default is latest stable
+        #   id: install    
+        # -  name: checkout
+        #    uses:  actions/checkout@v4
+        # - name: setting kubeconfig 
+        #   run: |
+        #     curl -sfL https://get.k3s.io | sh -
+        #     mkdir -p ~/.kube
+        #     sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+        #     sudo chown $USER:$USER ~/.kube/config 
+        #     cat ~/.kube/config
+        #     sleep 60
+        #     kubectl get pods -A
         
-        - name: Display Kubernates files after replace
-          run: |
-              cat kubernetes/development/deployment.yaml
-              cat kubernetes/development/ingress.yaml
-              cat kubernetes/development/ingress.yaml
-              echo "Ingress IP is $INGRESS_IP"
+        # - name: saving nginx controller ip as github environment variable    
+        #   run: |
+        #     IP=$(kubectl -n ingress-nginx get svc ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2>/dev/null || echo "127.0.0.1")
+        #     echo "INGRESS_IP=$IP" >> $GITHUB_ENV
+
+        # - name: Replace place holder in k8s manifest files    
+        #   uses: cschleiden/replace-tokens@v1
+        #   with:
+        #     tokenPrefix: '_{_'
+        #     tokenSuffix: '_}_'
+        #     files: '["kubernetes/development/*.yaml"]'
+        #   env:
+        #     NAMESPACE: ${{ vars.NAMESPACE}}
+        #     REPLICAS: ${{ vars.REPLICAS}}
+        #     IMAGES: ${{vars.DOCKER_USERNAME}}/solar-system:${{github.sha}}
+        #     INGRESS_IP: ${{ env.INGRESS_IP}}
+        
+        # - name: Display Kubernates files after replace
+        #   run: |
+        #       cat kubernetes/development/deployment.yaml
+        #       cat kubernetes/development/ingress.yaml
+        #       cat kubernetes/development/ingress.yaml
+        #       echo "Ingress IP is $INGRESS_IP"
 
 
 
-        - name: Create MongoDB Secret
-          run: |
-             kubectl create namespace ${{ vars.NAMESPACE}} || true
-             kubectl -n ${{ vars.NAMESPACE}} create secret generic mongo-db-creds \
-             --from-literal=MONGO_URI=${{ env.MONGO_URI}} \
-             --from-literal=MONGO_USERNAME=${{ env.MONGO_USERNAME}} \
-             --from-literal=MONGO_PASSWORD=${{ env.MONGO_PASSWORD}} \
-             --save-config \
-             --dry-run=client \
-             -o yaml | kubectl apply -f -
+        # - name: Create MongoDB Secret
+        #   run: |
+        #      kubectl create namespace ${{ vars.NAMESPACE}} || true
+        #      kubectl -n ${{ vars.NAMESPACE}} create secret generic mongo-db-creds \
+        #      --from-literal=MONGO_URI=${{ env.MONGO_URI}} \
+        #      --from-literal=MONGO_USERNAME=${{ env.MONGO_USERNAME}} \
+        #      --from-literal=MONGO_PASSWORD=${{ env.MONGO_PASSWORD}} \
+        #      --save-config \
+        #      --dry-run=client \
+        #      -o yaml | kubectl apply -f -
 
-        - name: Deploy to Dev Environment
-          run: |
-            kubectl apply -f kubernetes/development
-        - name: check deployment
-          run: |
-            kubectl port-forward svc/solar-system 3000:3000 -n development
-            curl http://127.0.0.1:3000/live
+        # - name: Deploy to Dev Environment
+        #   run: |
+        #     kubectl apply -f kubernetes/development
+        # - name: check deployment
+        #   run: |
+        #     kubectl port-forward svc/solar-system 3000:3000 -n development
+        #     curl http://127.0.0.1:3000/live
 
 
 
