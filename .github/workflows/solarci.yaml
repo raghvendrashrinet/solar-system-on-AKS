@@ -112,7 +112,7 @@ jobs:
             push: true
             tags: | 
                  ${{vars.DOCKER_USERNAME}}/solar-system:${{github.sha}}
-                 ghcr.io/${{vars.DOCKER_USERNAME}}/solar-system:${{github.sha}}
+                # ghcr.io/${{vars.DOCKER_USERNAME}}/solar-system:${{github.sha}}
               
     Kubernetese_CD:
       runs-on: 'ubuntu-latest'
