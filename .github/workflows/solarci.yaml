@@ -138,7 +138,9 @@ jobs:
             inlineScript: |
               az account show
               az group list
-              kubectl get pods
+        - name: Deploy to Kubernetes
+          run: |
+             kubectl get nodes
         # # kubectl install on the runner
         # - name: kubectl install on the runner
         #   uses: azure/setup-kubectl@v4
