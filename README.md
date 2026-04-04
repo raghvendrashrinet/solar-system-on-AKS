@@ -109,4 +109,25 @@ az ad sp create-for-rbac --name "myApp-github-actions" --role contributor \
   --scopes /subscriptions/<SUBSCRIPTION_ID> \
   --sdk-auth
 ```
+#### assign a role-based access control (RBAC) role to your Azure App Registration (Service Principal), you can use the Azure Portal or the Azure CLI.Method 
 
+1: Azure PortalNavigate to the Resource: Go to the resource where you want to grant access (e.g., your AKS Cluster, Resource Group, or Subscription).Open Access Control: Select Access control (IAM) from the left-hand menu.Add Assignment: Click Add > Add role assignment.Select Role: Choose a role that fits your needs.
+
+Common roles for AKS include:
+ - Azure Kubernetes Service Cluster User Role: To download kubeconfig.
+ - Azure Kubernetes Service RBAC Admin: For full administrative control.
+ - Contributor: To manage almost all resources.
+ - Assign to Principal: Your App Registration name, and select it.Finalise: Click Review + assign to complete the process.
+ 
+2: Azure CLIUse the az role assignment create command. You will need your App's Client ID (App ID) or Object ID.bash# Get the resource ID of your cluster
+```
+AKS_ID=$(az aks show --resource-group <YourResourceGroup> --name <YourAKSCluster> --query id -o tsv)
+```
+#### Assign the role (example: RBAC Admin)
+```
+az role assignment create \
+  --assignee <Your-App-Client-ID> \
+  --role "Azure Kubernetes Service RBAC Admin" \
+  --scope $AKS_ID
+```
+Use code with caution.Key ConsiderationsPropagation Delay: New role assignments can take up to 5 minutes (and sometimes longer for service principals) to fully propagate through the system.Principle of Least Privilege: Always start with the most restrictive role needed for the task to maintain high security.Scope: You can restrict access to a specific namespace by adding /namespaces/<namespace-name> to the end of your scope ID.Are you setting this up for a CI/CD pipeline like GitHub Actions
