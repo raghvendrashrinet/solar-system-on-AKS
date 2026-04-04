@@ -80,26 +80,33 @@ If the installation was successful, you should be able to run the following comm
                 |   Database: superData       |
                 +-----------------------------+
 
-# CD - Azure setup
-  ### Azure service principle through GUI
+## CD - Azure setup
+  #### Azure service principle through GUI
+   ```
    -- Microsoft Entra ID -> select App registrations > New registration > Create
    -- Generate a Client Secret   , Copy client id and secret
    -- Assign Permissions (RBAC) -- at Resource Group Level / Subscription Level -- Role: Select Contributor (
    Create the Service Principal
-  ###  service principle through CLI
+```
+  ####  service principle through CLI
+  ```
   az ad sp create-for-rbac --name "github-actions-sp" --role contributor \
   --scopes /subscriptions/<SUBSCRIPTION_ID> \
   --sdk-auth
-
+```
   AZURE_CREDENTIALS secret  with values
+  ```
   {
   "clientId": "<GUID>",
   "clientSecret": "<GUID>",
   "subscriptionId": "<GUID>",
   "tenantId": "<GUID>"
 }
-
-### The easiest way to get this JSON is by running the following command in the Azure CLI (or Azure Cloud Shell)
+```
+#### The easiest way to get this JSON is by running the following command in the Azure CLI (or Azure Cloud Shell)
+```
 az ad sp create-for-rbac --name "myApp-github-actions" --role contributor \
   --scopes /subscriptions/<SUBSCRIPTION_ID> \
   --sdk-auth
+```
+
