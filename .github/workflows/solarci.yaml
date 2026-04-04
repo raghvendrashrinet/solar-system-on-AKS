@@ -123,6 +123,10 @@ jobs:
            uses: azure/login@v1.4.3
            with:
              creds: ${{ secrets.AZURE_CREDENTIALS }}
+        - name: Setup kubectl
+          uses: azure/setup-kubectl@v4
+          with:
+           version: 'latest'
         - name: Verify Azure CLI login
           uses: azure/cli@v2 # Use the Azure CLI action to run commands
           with:
