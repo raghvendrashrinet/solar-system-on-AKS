@@ -131,7 +131,7 @@ jobs:
           uses: azure/aks-set-context@v3
           with:
            resource-group: 'rg1'
-           cluster-name: 'AKS-Cluster-solar-system'
+           cluster-name: 'aks-solar-system'
         - name: Verify Azure CLI login
           uses: azure/cli@v2 # Use the Azure CLI action to run commands
           with:
