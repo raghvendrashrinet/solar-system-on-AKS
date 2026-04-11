@@ -104,6 +104,8 @@ jobs:
       runs-on: 'ubuntu-latest'
       needs: [run_test,docker ]
       steps: 
+        -  name: checkout
+           uses:  actions/checkout@v4
         -  name: Azure login
            id: login
            uses: azure/login@v1.4.3
@@ -133,8 +135,7 @@ jobs:
         #   #with:
         #    # version: '<version>' # default is latest stable
         #   id: install    
-        # -  name: checkout
-        #    uses:  actions/checkout@v4
+       
         # - name: setting kubeconfig 
         #   run: |
         #     curl -sfL https://get.k3s.io | sh -
