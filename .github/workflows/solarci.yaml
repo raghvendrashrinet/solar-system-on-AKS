@@ -15,8 +15,8 @@ jobs:
         runs-on: ${{ matrix.operating_system }}
         strategy:
             matrix:
-               nodejs_version: [18,19]
-               operating_system: [ ubuntu-24.04, ubuntu-latest]
+               nodejs_version: [18]
+               operating_system: [ ubuntu-latest]
   
 
         steps:
@@ -40,6 +40,7 @@ jobs:
           with: 
             name: unitTestReport-${{matrix.operating_system}}-${{matrix.nodejs_version}}
             path: test-results-${{matrix.operating_system}}-${{matrix.nodejs_version}}.xml
+            
         - name: run_code_coverage
           run: npm run coverage
           continue-on-error: true  # it will excute and test is marked as pass
