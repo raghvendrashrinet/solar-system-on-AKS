@@ -147,7 +147,7 @@ jobs:
         
         - name: saving nginx controller ip as github environment variable    
           run: |
-            IP=$(kubectl -n ingress-basic get service nginx-ingress-ingress-nginx-controller  -o jsonpath='{.status.loadBalancer.ingress[0].ip}'' 2>/dev/null || echo "127.0.0.1")
+            IP=$(kubectl -n ingress-basic get service nginx-ingress-ingress-nginx-controller  -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2>/dev/null || echo "127.0.0.1")
             echo "INGRESS_IP=$IP" >> $GITHUB_ENV
 
         - name: Replace place holder in k8s manifest files    
