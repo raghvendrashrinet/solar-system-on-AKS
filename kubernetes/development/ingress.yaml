@@ -4,7 +4,7 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
-    kubernetes.io/tls-acme: "true"
+   # kubernetes.io/tls-acme: "true"
   name: solar-system
   namespace: _{_NAMESPACE_}_
 spec:
@@ -19,7 +19,7 @@ spec:
                 number: 3000
           path: /
           pathType: Prefix
-    tls:
-    - hosts:
-      - solar-system-_{_NAMESPACE_}_._{_INGRESS_IP_}_.nip.io
-      secretName: ingress-local-tls
+   # tls:
+   # - hosts:
+    #  - solar-system-_{_NAMESPACE_}_._{_INGRESS_IP_}_.nip.io
+  #    secretName: ingress-local-tls
