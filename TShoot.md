@@ -71,3 +71,14 @@ kubectl get pods -n development -o wide
 
 # View live application logs to see incoming requests
 kubectl logs -f -n development -l app=solar-system --tail=20
+ The Application Pod Logs (The "Core")These logs show the internal startup and any code-level errors.Note: If your Node.js   code does not have a logging middleware (like morgan), you will only see the "Server running" message here and no browser hits.
+
+### 📝 Monitoring Real-Time Traffic
+
+To fully verify the traffic flow, you must monitor two different log layers. 
+
+#### 1. The Ingress Controller Logs (The "Front Door")
+These logs show every request hitting the cluster from the internet. If you see lines here when you refresh your browser, your Azure Networking is 100% correct.
+```powershell
+# Watch real-time traffic hitting the NGINX Ingress
+kubectl logs -f -n ingress-basic -l app.kubernetes.io/name=ingress-nginx --tail=20
